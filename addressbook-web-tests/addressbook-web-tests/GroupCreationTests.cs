@@ -52,7 +52,7 @@ namespace WebAddressbookTests
             GroupData group = new GroupData("aa");
             group.Header = "dd";
             group.Footer = "cc";
-            //FillGtoupForm( new GroupData("aa", "dd", "cc"));
+            FillGtoupForm(group);
             SubmitGroupCreation();
             ReturnToGroupsPage();
             Loguot();

@@ -48,10 +48,15 @@ namespace WebAddressbookTests
             OpenPageHome();
             Login(new AccountData("admin", "secret"));
             CreationNewContact();
-            //FillContactForm(new ContactData());
-            ContactData contact = new ContactData("TT", "GG");
-            
-            // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+            ContactData contact = new ContactData("Timi", "Gabbi");
+            contact.Middlename = "";
+            contact.Nickname = "";
+            contact.Title = "";
+            contact.Company = "";
+            contact.Address = "";
+            contact.Home = "";
+            contact.Email = "";
+            FillContactForm(contact);
             SubmitContactCreation();
             Logout();
         }
@@ -63,7 +68,7 @@ namespace WebAddressbookTests
 
         private void SubmitContactCreation()
         {
-            driver.FindElement(By.Name("submit")).Click();
+            driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
         }
 
         private void FillContactForm(ContactData contact)
@@ -72,6 +77,20 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
             driver.FindElement(By.Name("lastname")).Clear();
             driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
+            driver.FindElement(By.Name("middlename")).Clear();
+            driver.FindElement(By.Name("middlename")).SendKeys(contact.Middlename);
+            driver.FindElement(By.Name("nickname")).Clear();
+            driver.FindElement(By.Name("nickname")).SendKeys(contact.Nickname);
+            driver.FindElement(By.Name("title")).Clear();
+            driver.FindElement(By.Name("title")).SendKeys(contact.Title);
+            driver.FindElement(By.Name("company")).Clear();
+            driver.FindElement(By.Name("company")).SendKeys(contact.Company);
+            driver.FindElement(By.Name("address")).Clear();
+            driver.FindElement(By.Name("address")).SendKeys(contact.Address);
+            driver.FindElement(By.Name("home")).Clear();
+            driver.FindElement(By.Name("home")).SendKeys(contact.Home);
+            driver.FindElement(By.Name("email")).Clear();
+            driver.FindElement(By.Name("email")).SendKeys(contact.Email);
         }
 
         private void CreationNewContact()
