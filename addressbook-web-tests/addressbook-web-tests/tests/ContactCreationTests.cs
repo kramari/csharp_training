@@ -13,9 +13,7 @@ namespace WebAddressbookTests
         [Test]
         public void ContactCreationTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            CreationNewContact();
+            //app.Contact.CreationNewContact();
             ContactData contact = new ContactData("Timi", "Gabbi");
             contact.Middlename = "";
             contact.Nickname = "";
@@ -24,9 +22,6 @@ namespace WebAddressbookTests
             contact.Address = "";
             contact.Home = "";
             contact.Email = "";
-            FillContactForm(contact);
-            SubmitContactCreation();
-            Logout();
         }
 
      }
