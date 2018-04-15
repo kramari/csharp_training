@@ -18,7 +18,6 @@ namespace WebAddressbookTests
 
         public ContactHelper Create(ContactData contact)
         {
-            CreationNewContact();
             FillContactForm(contact);
             SubmitContactCreation();
             return this;
