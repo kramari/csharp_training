@@ -16,6 +16,7 @@ namespace WebAddressbookTests
         {
         }
 
+        //методы для создания контакта
         public ContactHelper Create(ContactData contact)
         {
             FillContactForm(contact);
@@ -23,11 +24,33 @@ namespace WebAddressbookTests
             return this;
         }
 
+        //методы для изменения контакта
+        public ContactHelper Modify(int v, ContactData newData)
+        {
+            SelectContact(v);
+            SubmitContactEdit();
+            FillContactForm(newData);
+            SudbmitContactUpdate();
+            return this;
+        }
+      
+        //методы для удаления контакта
+        public ContactHelper Remove(int v)
+        {
+            SelectContact(v);
+            RemoverContact();
+            DeleteOk();
+            return this;
+        }
+        
+        //создание нового контакта
         public ContactHelper CreationNewContact()
         {
             driver.FindElement(By.LinkText("add new")).Click();
             return this;
         }
+
+        //заполнение данных о новом контакте
         public ContactHelper FillContactForm(ContactData contact)
         {
             driver.FindElement(By.Name("firstname")).Clear();
@@ -50,9 +73,46 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("email")).SendKeys(contact.Email);
             return this;
         }
+
+        //сохранение создания нового контакта
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
+            return this;
+        }
+
+        //выбор контакта
+        public ContactHelper SelectContact(int index)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            return this;
+        }
+
+        //открытие радактирования контакта
+        public ContactHelper SubmitContactEdit()
+        {
+            driver.FindElement(By.CssSelector("img[alt=\"Edit\"]")).Click();
+            return this;
+        }
+
+        //сохранение изменения контакта
+        public ContactHelper SudbmitContactUpdate()
+        {
+            driver.FindElement(By.XPath("(//input[@name='update'])[2]")).Click();
+            return this;
+        }
+
+        //удаление выбранного контакта
+        public ContactHelper RemoverContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            return this;
+        }
+
+        //согласие с удалением выбранного контакта
+        public ContactHelper DeleteOk()
+        {
+            driver.SwitchTo().Alert().Accept();
             return this;
         }
     }

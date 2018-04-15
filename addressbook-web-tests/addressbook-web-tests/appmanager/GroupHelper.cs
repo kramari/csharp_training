@@ -17,6 +17,7 @@ namespace WebAddressbookTests
         {
         }
 
+        //методы для создания
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
@@ -27,6 +28,7 @@ namespace WebAddressbookTests
             return this;
         }
 
+        //методы для изменения
         public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
@@ -39,6 +41,7 @@ namespace WebAddressbookTests
             
         }
 
+        //методы для удаления
         public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
@@ -85,7 +88,7 @@ namespace WebAddressbookTests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
-        return this;
+            return this;
         }
 
         //удаление группы
