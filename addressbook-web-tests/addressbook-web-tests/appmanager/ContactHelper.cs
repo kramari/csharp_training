@@ -27,8 +27,8 @@ namespace WebAddressbookTests
         //методы для изменения контакта
         public ContactHelper Modify(int v, ContactData newData)
         {
-            SelectContact(v);
-            SubmitContactEdit();
+            //SelectContact(v);
+            SubmitContactEdit(v);
             FillContactForm(newData);
             SudbmitContactUpdate();
             return this;
@@ -89,9 +89,10 @@ namespace WebAddressbookTests
         }
 
         //открытие радактирования контакта
-        public ContactHelper SubmitContactEdit()
+        public ContactHelper SubmitContactEdit(int index)
         {
-            driver.FindElement(By.CssSelector("img[alt=\"Edit\"]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ index +"]")).Click();
+            //driver.FindElement(By.CssSelector("(img[alt=\"Edit\])[4]")).Click();
             return this;
         }
 
