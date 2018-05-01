@@ -7,20 +7,20 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactModificationTests : TestBase
+    public class ContactModificationTests : AuthTestBase
     {
 
         [Test]
         public void ContactModificationTest()
         {
-            ContactData newData = new ContactData("Ell", "Doomn");
-            newData.Middlename = "";
-            newData.Nickname = "";
-            newData.Title = "";
-            newData.Company = "";
-            newData.Address = "";
-            newData.Home = "";
-            newData.Email = "";
+            ContactData newData = new ContactData("Holms", "Vatson");
+            newData.Middlename = null;
+            newData.Nickname = null;
+            newData.Title = null;
+            newData.Company = null;
+            newData.Address = null;
+            newData.Home = null;
+            newData.Email = null;
 
             app.Contact.Modify(1, newData);
         }

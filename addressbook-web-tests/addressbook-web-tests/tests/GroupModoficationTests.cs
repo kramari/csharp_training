@@ -8,15 +8,17 @@ namespace WebAddressbookTests
 {
 
     [TestFixture]
-    public class GroupModificationTests : TestBase
+    public class GroupModificationTests : AuthTestBase
     {
 
         [Test]
         public void GroupModificationTest()
         {
-            GroupData newData = new GroupData("ttt");
-            newData.Header = null;
-            newData.Footer = null;
+            GroupData newData = new GroupData("ttt")
+            {
+                Header = null,
+                Footer = null
+            };
 
             app.Groups.Modify(1, newData);
 
