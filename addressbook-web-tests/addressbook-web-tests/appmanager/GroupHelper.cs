@@ -28,6 +28,25 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public List<GroupData> GetGroupList()
+        {
+            //готовим пустой список
+            List<GroupData> groups = new List<GroupData>();
+
+            //заполняем список данными
+            manager.Navigator.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach(IWebElement element in elements)
+            {
+                GroupData group = new GroupData(element.Text);
+                groups.Add(group);
+            }
+
+            //возвращаем
+            return groups;
+
+        }
+
         //методы для изменения
         public GroupHelper Modify(int p, GroupData newData)
         {
@@ -66,7 +85,6 @@ namespace WebAddressbookTests
             Type(By.Name("group_footer"), group.Footer);
             return this;
         }
-
         
         //нажатие кнопки о создании новой группы
         public GroupHelper SubmitGroupCreation()
@@ -85,7 +103,7 @@ namespace WebAddressbookTests
         //показать группы
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             return this;
         }
 

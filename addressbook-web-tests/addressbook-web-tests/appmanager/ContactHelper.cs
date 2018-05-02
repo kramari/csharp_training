@@ -33,7 +33,26 @@ namespace WebAddressbookTests
             SudbmitContactUpdate();
             return this;
         }
-      
+
+        public List<ContactData> GetContacList()
+        {
+            //готовим пустой список
+            List<ContactData> contacts = new List<ContactData>();
+
+            //заполняем список данными
+            manager.Navigator.OpenHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+
+            foreach (IWebElement element in elements)
+            {
+                IList<IWebElement> contact = element.FindElements(By.CssSelector("td"));
+                contacts.Add(new ContactData(contact[1].Text, contact[2].Text));
+            }
+
+            //возвращаем
+            return contacts;
+        }
+
         //методы для удаления контакта
         public ContactHelper Remove(int v)
         {
@@ -75,14 +94,14 @@ namespace WebAddressbookTests
         //выбор контакта
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             return this;
         }
 
         //открытие радактирования контакта
         public ContactHelper SubmitContactEdit(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ index +"]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ (index + 1) +"]")).Click();
             //driver.FindElement(By.CssSelector("(img[alt=\"Edit\])[4]")).Click();
             return this;
         }

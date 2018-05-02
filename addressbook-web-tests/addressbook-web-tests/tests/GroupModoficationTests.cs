@@ -20,7 +20,19 @@ namespace WebAddressbookTests
                 Footer = null
             };
 
-            app.Groups.Modify(1, newData);
+            //проверяем количесиво уже созданных групп
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+
+            app.Groups.Modify(0, newData);
+
+            //получаем количество групп после создания новой
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups[0].Name = newData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+
+            //проверяем, что после создания новой группы, их стало на 1 больше
+            Assert.AreEqual(oldGroups, newGroups);
 
         }
     }

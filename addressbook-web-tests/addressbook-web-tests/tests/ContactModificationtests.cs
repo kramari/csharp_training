@@ -22,7 +22,20 @@ namespace WebAddressbookTests
             newData.Home = null;
             newData.Email = null;
 
+            //проверяем количесиво уже созданных контактов
+            List<ContactData> oldContacts = app.Contact.GetContacList();
+
             app.Contact.Modify(1, newData);
+
+            //получаем количество контактов после создания нового
+            List<ContactData> newContacts = app.Contact.GetContacList();
+            oldContacts[0].Firstname = newData.Firstname;
+            oldContacts[0].Lastname = newData.Lastname;
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            //проверяем, что после создания нового контакта, их стало на 1 больше
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 
