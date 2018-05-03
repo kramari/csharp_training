@@ -18,13 +18,19 @@ namespace WebAddressbookTests
 
             app.Contact.Remove(0);
 
-            List<ContactData> newContacts = app.Contact.GetContacList();
-            oldContacts.RemoveAt(0);
-            oldContacts.Sort();
-            newContacts.Sort();
+            //хеширование
+            Assert.AreEqual(oldContacts.Count - 1, app.Contact.GetContactCount());
 
+            List<ContactData> newContacts = app.Contact.GetContacList();
+            ContactData toBeRemoved = oldContacts[0];
+            oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
 
+            //нужно убедится, что идентификатор этого элемента не равен идентификатору удаленного элемента
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
     }
 }

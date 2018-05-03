@@ -16,9 +16,42 @@ namespace WebAddressbookTests
         {
         }
 
+        private List<ContactData> contactCache = null;
+
+        public List<ContactData> GetContacList()
+        {
+            if(contactCache == null)
+            {
+                contactCache = new List<ContactData>();
+
+                //готовим пустой список
+                //List<ContactData> contacts = new List<ContactData>();
+
+                //заполняем список данными
+                manager.Navigator.OpenHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+
+                foreach (IWebElement element in elements)
+                {
+                    IList < IWebElement > contact = element.FindElements(By.CssSelector("td"));
+                    contactCache.Add(new ContactData(contact[1].Text, contact[2].Text));
+                }
+            }
+            //возвращаем
+            return contactCache;
+        }
+
+        //для хеширования
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.CssSelector("td")).Count;
+            //return driver.FindElements(By.Name("entry")).Count;
+        }
+
         //методы для создания контакта
         public ContactHelper Create(ContactData contact)
         {
+            manager.Navigator.OpenHomePage();
             FillContactForm(contact);
             SubmitContactCreation();
             return this;
@@ -27,35 +60,17 @@ namespace WebAddressbookTests
         //методы для изменения контакта
         public ContactHelper Modify(int v, ContactData newData)
         {
-            //SelectContact(v);
+            manager.Navigator.OpenHomePage();
             SubmitContactEdit(v);
             FillContactForm(newData);
             SudbmitContactUpdate();
             return this;
         }
 
-        public List<ContactData> GetContacList()
-        {
-            //готовим пустой список
-            List<ContactData> contacts = new List<ContactData>();
-
-            //заполняем список данными
-            manager.Navigator.OpenHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
-
-            foreach (IWebElement element in elements)
-            {
-                IList<IWebElement> contact = element.FindElements(By.CssSelector("td"));
-                contacts.Add(new ContactData(contact[1].Text, contact[2].Text));
-            }
-
-            //возвращаем
-            return contacts;
-        }
-
         //методы для удаления контакта
         public ContactHelper Remove(int v)
         {
+            manager.Navigator.OpenHomePage();
             SelectContact(v);
             RemoverContact();
             DeleteOk();
@@ -102,7 +117,6 @@ namespace WebAddressbookTests
         public ContactHelper SubmitContactEdit(int index)
         {
             driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ (index + 1) +"]")).Click();
-            //driver.FindElement(By.CssSelector("(img[alt=\"Edit\])[4]")).Click();
             return this;
         }
 
@@ -117,6 +131,7 @@ namespace WebAddressbookTests
         public ContactHelper RemoverContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -124,6 +139,7 @@ namespace WebAddressbookTests
         public ContactHelper DeleteOk()
         {
             driver.SwitchTo().Alert().Accept();
+            contactCache = null;
             return this;
         }
     }

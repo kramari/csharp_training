@@ -8,13 +8,10 @@ namespace WebAddressbookTests
 {
     public class GroupData : IEquatable <GroupData>, IComparable<GroupData>
     {
-        private string name;
-        private string header = "";
-        private string footer = "";
-
+        
         public GroupData(string name)
         {
-            this.name = name;
+            Name = name;
         }
 
         /*public GroupData(string name, string header, string footer)
@@ -24,42 +21,15 @@ namespace WebAddressbookTests
             this.footer = footer;
         }*/
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
-        }
+            //свойства
+        public string Name { get; set; }
+        
+        public string Header { get; set; }
+       
+        public string Footer { get; set; }
 
-        public string Header
-        {
-            get
-            {
-                return header;
-            }
-            set
-            {
-                header = value;
-            }
-        }
-
-        public string Footer
-        {
-            get
-            {
-                return footer;
-            }
-            set
-            {
-                footer = value;
-            }
-        }
-
+        public string Id { get; set; }
+        
         public bool Equals(GroupData other)  //метод Equals - стандартный метод
         {
             if(Object.ReferenceEquals(other, null))

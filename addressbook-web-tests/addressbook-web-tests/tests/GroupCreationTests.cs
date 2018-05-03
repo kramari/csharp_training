@@ -23,6 +23,9 @@ namespace WebAddressbookTests
 
             app.Groups.Create(group);
 
+            //хеширование
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+
             //контейнер/коллекция
             //получаем количество групп после создания новой
             List<GroupData> newGroups = app.Groups.GetGroupList();
@@ -48,6 +51,9 @@ namespace WebAddressbookTests
 
             app.Groups.Create(group);
 
+            //хеширование
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -67,6 +73,9 @@ namespace WebAddressbookTests
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
             app.Groups.Create(group);
+
+            //хеширование
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups.Add(group);

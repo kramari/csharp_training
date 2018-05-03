@@ -14,21 +14,26 @@ namespace WebAddressbookTests
         [Test]
         public void ContactCreationTest()
         {
-            app.Contact.CreationNewContact();
+            // app.Contact.CreationNewContact();
 
-            ContactData contact = new ContactData("Gabbi", "Timi");
-            contact.Middlename = "";
-            contact.Nickname = "";
-            contact.Title = "";
-            contact.Company = "";
-            contact.Address = "";
-            contact.Home = "";
-            contact.Email = "";
+            ContactData contact = new ContactData("Hohok", "Pum")
+            {
+                Middlename = "",
+                Nickname = "",
+                Title = "",
+                Company = "",
+                Address = "",
+                Home = "",
+                Email = ""
+            };
 
             //проверяем количесиво уже созданных контактов
             List<ContactData> oldContacts = app.Contact.GetContacList();
 
             app.Contact.Create(contact);
+
+            //хеширование
+            Assert.AreEqual(oldContacts.Count + 1, app.Contact.GetContactCount());
 
             //получаем количество контактов после создания нового
             List<ContactData> newContacts = app.Contact.GetContacList();

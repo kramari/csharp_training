@@ -22,8 +22,13 @@ namespace WebAddressbookTests
 
             //проверяем количесиво уже созданных групп
             List<GroupData> oldGroups = app.Groups.GetGroupList();
+            //запоминаем информацию для дальнейшего сравнения
+            GroupData oldData = oldGroups[0];
 
             app.Groups.Modify(0, newData);
+
+            //хеширование
+            Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
             //получаем количество групп после создания новой
             List<GroupData> newGroups = app.Groups.GetGroupList();
@@ -33,6 +38,15 @@ namespace WebAddressbookTests
 
             //проверяем, что после создания новой группы, их стало на 1 больше
             Assert.AreEqual(oldGroups, newGroups);
+
+            //находим тот элемент, у которого нужный идентификатор
+            foreach (GroupData group in newGroups)
+            {
+                if (group.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Name, group.Name);
+                }
+            }
 
         }
     }

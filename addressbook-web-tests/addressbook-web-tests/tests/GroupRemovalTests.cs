@@ -19,11 +19,22 @@ namespace WebAddressbookTests
 
             app.Groups.Remove(0);
 
-            //получаем количество групп после создания новой
+            //хеширование
+            Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
+
+            //получаем количество групп после удаления
             List<GroupData> newGroups = app.Groups.GetGroupList();
 
+            //сохраняем сравниваемую группу в переменную
+            GroupData toBeRemoved = oldGroups[0];
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);
+
+            //нужно убедится, что идентификатор этого элемента не равен идентификатору удаленного элемента
+            foreach (GroupData group in newGroups)
+            {
+                Assert.AreNotEqual(group.Id, toBeRemoved.Id);
+            }
         }
     }
 }

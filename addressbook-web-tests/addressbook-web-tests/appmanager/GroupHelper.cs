@@ -28,12 +28,35 @@ namespace WebAddressbookTests
             return this;
         }
 
+        private List<GroupData> groupCache = null;
+        
         public List<GroupData> GetGroupList()
         {
+            if(groupCache == null)
+            {
+                //создаем кеш
+                groupCache = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                foreach (IWebElement element in elements)
+                {
+                    GroupData group = new GroupData(element.Text)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    };
+                   
+                    groupCache.Add(group);
+                }
+            }
+
+            //выводим новый кеш, на случай, если кто-то проводил модификацию
+            return new List<GroupData>(groupCache);
+            
+            /*
+             * кусок кода, до того как мы стали использовать кеш
             //готовим пустой список
             List<GroupData> groups = new List<GroupData>();
-
-            //заполняем список данными
+                        //заполняем список данными
             manager.Navigator.GoToGroupsPage();
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
             foreach(IWebElement element in elements)
@@ -41,10 +64,15 @@ namespace WebAddressbookTests
                 GroupData group = new GroupData(element.Text);
                 groups.Add(group);
             }
-
             //возвращаем
-            return groups;
+            return groups;*/
 
+        }
+
+        //для хеширования
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
         }
 
         //методы для изменения
@@ -90,6 +118,8 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            //чистим старый кеш
+            groupCache = null;
             return this;
         }
 
@@ -111,6 +141,8 @@ namespace WebAddressbookTests
         public GroupHelper RemoverGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+            //чистим старый кеш
+            groupCache = null;
             return this;
         }
 
@@ -125,6 +157,8 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            //чистим старый кеш
+            groupCache = null;
             return this;
         }
     }

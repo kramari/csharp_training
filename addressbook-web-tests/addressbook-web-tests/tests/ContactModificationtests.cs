@@ -13,17 +13,21 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModificationTest()
         {
-            ContactData newData = new ContactData("Holms", "Vatson");
-            newData.Middlename = null;
-            newData.Nickname = null;
-            newData.Title = null;
-            newData.Company = null;
-            newData.Address = null;
-            newData.Home = null;
-            newData.Email = null;
+            ContactData newData = new ContactData("Rerv", "Tyhd")
+            {
+                Middlename = null,
+                Nickname = null,
+                Title = null,
+                Company = null,
+                Address = null,
+                Home = null,
+                Email = null
+            };
+            
 
             //проверяем количесиво уже созданных контактов
             List<ContactData> oldContacts = app.Contact.GetContacList();
+            ContactData oldData = oldContacts[0];
 
             app.Contact.Modify(1, newData);
 
@@ -36,6 +40,16 @@ namespace WebAddressbookTests
 
             //проверяем, что после создания нового контакта, их стало на 1 больше
             Assert.AreEqual(oldContacts, newContacts);
+
+            //находим тот элемент, у которого нужный идентификатор
+            foreach (ContactData contract in newContacts)
+            {
+                if (contract.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Lastname, contract.Lastname);
+                    Assert.AreEqual(newData.Firstname, contract.Firstname);                    
+                }
+            }
         }
     }
 

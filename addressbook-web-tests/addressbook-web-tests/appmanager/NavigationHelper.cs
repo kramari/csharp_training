@@ -23,11 +23,11 @@ namespace WebAddressbookTests
 
         public void OpenHomePage()
         {
-            if(driver.Url == baseURL + "addressbook/index.php")
+            if(driver.Url == baseURL + "addressbook/")
             {
                 return;
             }
-            driver.Navigate().GoToUrl(baseURL + "addressbook/index.php");
+            driver.Navigate().GoToUrl(baseURL + "addressbook/");
         }
 
         public void GoToGroupsPage()
