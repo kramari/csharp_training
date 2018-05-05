@@ -44,14 +44,14 @@ namespace WebAddressbookTests
         //для хеширования
         public int GetContactCount()
         {
-            return driver.FindElements(By.CssSelector("td")).Count;
-            //return driver.FindElements(By.Name("entry")).Count;
+            return driver.FindElements(By.Name("entry")).Count;
         }
 
         //методы для создания контакта
         public ContactHelper Create(ContactData contact)
         {
             manager.Navigator.OpenHomePage();
+            CreationNewContact();
             FillContactForm(contact);
             SubmitContactCreation();
             return this;

@@ -33,8 +33,9 @@ namespace WebAddressbookTests
 
             //получаем количество контактов после создания нового
             List<ContactData> newContacts = app.Contact.GetContacList();
-            oldContacts[0].Firstname = newData.Firstname;
             oldContacts[0].Lastname = newData.Lastname;
+            oldContacts[0].Firstname = newData.Firstname;
+            
             oldContacts.Sort();
             newContacts.Sort();
 
