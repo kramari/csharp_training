@@ -42,15 +42,6 @@ namespace WebAddressbookTests
             //проверяем, что после создания нового контакта, их стало на 1 больше
             Assert.AreEqual(oldContacts, newContacts);
 
-            //находим тот элемент, у которого нужный идентификатор
-            foreach (ContactData contract in newContacts)
-            {
-                if (contract.Id == oldData.Id)
-                {
-                    Assert.AreEqual(newData.Lastname, contract.Lastname);
-                    Assert.AreEqual(newData.Firstname, contract.Firstname);                    
-                }
-            }
         }
     }
 

@@ -35,6 +35,8 @@ namespace WebAddressbookTests
             //хеширование
             Assert.AreEqual(oldContacts.Count + 1, app.Contact.GetContactCount());
 
+            app.Navigator.OpenHomePage();
+
             //получаем количество контактов после создания нового
             List<ContactData> newContacts = app.Contact.GetContacList();
             oldContacts.Add(contact);

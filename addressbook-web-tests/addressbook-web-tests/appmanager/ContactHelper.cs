@@ -54,6 +54,7 @@ namespace WebAddressbookTests
             CreationNewContact();
             FillContactForm(contact);
             SubmitContactCreation();
+            manager.Navigator.OpenHomePage();
             return this;
         }
 
@@ -64,6 +65,7 @@ namespace WebAddressbookTests
             SubmitContactEdit(v);
             FillContactForm(newData);
             SudbmitContactUpdate();
+            manager.Navigator.OpenHomePage();
             return this;
         }
 
@@ -74,6 +76,7 @@ namespace WebAddressbookTests
             SelectContact(v);
             RemoverContact();
             DeleteOk();
+            manager.Navigator.OpenHomePage();
             return this;
         }
         
