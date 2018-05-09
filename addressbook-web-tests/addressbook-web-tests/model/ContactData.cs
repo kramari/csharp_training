@@ -8,6 +8,8 @@ namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
+        private string allPhone;
+        private string allEmail;
 
         public ContactData(string firstname, string lastname)
         {
@@ -76,8 +78,71 @@ namespace WebAddressbookTests
         public string Address { get; set; }
         
         public string Home { get; set; }
-        
+
+        public string Mobile { get; set; }
+
+        public string Work { get; set; }
+
+        public string AllPhone
+        {
+            get {
+                if(allPhone != null)
+                {
+                    return allPhone;
+                }
+                else {
+                    //метод Trim удаляет лишние пробелы в строчке
+                    return (CleanUpPhone(Home) + CleanUpPhone(Mobile) + CleanUpPhone(Work)).Trim();
+                }
+            }
+            set {
+                allPhone = value;
+            }
+        }
+
+        private string CleanUpPhone(string phone)
+        {
+            if(phone == null || phone == "")
+            {
+                return "";
+            }
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "")+ "\r\n";
+        }
+
         public string Email { get; set; }
+
+        public string Email2 { get; set; }
+
+        public string Email3 { get; set; }
+
+        public string AllEmail
+        {
+            get
+            {
+                if (allEmail != null)
+                {
+                    return allEmail;
+                }
+                else
+                {
+                    //метод Trim удаляет лишние пробелы в строчке
+                    return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
+                }
+            }
+            set
+            {
+                allEmail = value;
+            }
+        }
+
+        private string CleanUpEmail(string email)
+        {
+            if (email == null || email == "")
+            {
+                return "";
+            }
+            return email.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+        }
 
         public string Id { get; set; }
 
