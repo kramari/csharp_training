@@ -79,7 +79,33 @@ namespace WebAddressbookTests
             manager.Navigator.OpenHomePage();
             return this;
         }
-        
+
+        public bool ContacIsExists()
+        {
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])"));
+        }
+
+        public void ContacNotExists()
+        {
+            manager.Navigator.OpenHomePage();
+
+            if (ContacIsExists() == false)
+            {
+                ContactData contact = new ContactData("kukuev", "nab")
+                {
+                    Middlename = "",
+                    Nickname = "",
+                    Title = "",
+                    Company = "",
+                    Address = "",
+                    Home = "",
+                    Email = ""
+                };
+
+                Create(contact);
+            }
+        }
+
         //создание нового контакта
         public ContactHelper CreationNewContact()
         {
@@ -119,7 +145,7 @@ namespace WebAddressbookTests
         //открытие радактирования контакта
         public ContactHelper SubmitContactEdit(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ (index + 1) +"]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ index +"]")).Click();
             return this;
         }
 

@@ -14,6 +14,8 @@ namespace WebAddressbookTests
         [Test]
         public void GroupRemovalTest()
         {
+            app.Groups.GroupNotExists();
+                        
             //проверяем количесиво уже созданных групп
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 

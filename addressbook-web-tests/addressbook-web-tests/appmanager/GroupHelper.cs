@@ -98,6 +98,25 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public bool GroupIsExists()
+        {
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])"));
+        }
+
+        public void GroupNotExists()
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            if (GroupIsExists() == false)
+            {
+                GroupData group = new GroupData("papapm");
+                group.Header = "tadam";
+                group.Footer = "bum";
+
+                Create(group);
+            }
+        }
+
         //создание новой группы
         public GroupHelper InitToGroupCreation()
         {
