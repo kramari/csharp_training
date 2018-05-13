@@ -7,6 +7,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
@@ -15,7 +16,7 @@ namespace WebAddressbookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
-
+                
         private List<ContactData> contactCache = null;
 
         public List<ContactData> GetContacList()
@@ -172,6 +173,7 @@ namespace WebAddressbookTests
             return this;
         }
 
+        //метод для получения информации из таблицы с контактами
         public ContactData GetContactInformationFromTable(int index)
         {
             manager.Navigator.OpenHomePage();
@@ -191,6 +193,7 @@ namespace WebAddressbookTests
             };
         }
 
+        //метод получения данных со страницы редактирования контакта
         public ContactData GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
@@ -224,6 +227,58 @@ namespace WebAddressbookTests
             driver.FindElements(By.Name("entry"))[index].
                 FindElements(By.TagName("td"))[7].
                 FindElement(By.TagName("a")).Click();
+        }
+
+        //метод получения данных со страницы с детялями о контакте
+        public ContactData GetContactInformationFromDetails(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactDetails(0);
+
+            string[] firstLastName = driver.FindElement(By.Id("content"))
+                .FindElement(By.TagName("b"))
+                .Text.Split(' ');
+
+            string firstName = firstLastName[0];
+            string lastName = firstLastName[1];
+
+            string address = driver.FindElement(By.Id("content")).FindElement(By.TagName("br")).Text;
+
+            string homePhone = driver.FindElement(By.Id("content")).FindElement(By.TagName("br")).Text;
+            string mobilePhone = driver.FindElement(By.Id("content")).FindElement(By.TagName("br")).Text;
+            string workPhone = driver.FindElement(By.Id("content")).FindElement(By.TagName("br")).Text;
+
+            string email = driver.FindElement(By.Id("content")).FindElement(By.TagName("br")).Text;
+            string email2 = driver.FindElement(By.Id("content")).FindElement(By.TagName("br")).Text;
+            string email3 = driver.FindElement(By.Id("content")).FindElement(By.TagName("br")).Text;
+            
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                Home = homePhone,
+                Mobile = mobilePhone,
+                Work = workPhone,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3
+            };
+
+        }
+
+        public void InitContactDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index].
+                FindElements(By.TagName("td"))[6].
+                FindElement(By.TagName("a")).Click();
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.OpenHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+            return Int32.Parse(m.Value);
         }
     }
 }

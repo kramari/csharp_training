@@ -39,5 +39,15 @@ namespace WebAddressbookTests
             }
             driver.FindElement(By.LinkText("groups")).Click();
         }
+
+        /*public void OpenDetailsPage()
+        {
+            if (driver.Url == baseURL + "addressbook/group.php"
+                && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
+            driver.FindElement(By.LinkText("groups")).Click();
+        }*/
     }
 }
