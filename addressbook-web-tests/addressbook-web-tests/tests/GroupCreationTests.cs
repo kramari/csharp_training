@@ -4,7 +4,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 using NUnit.Framework;
+using Newtonsoft.Json;
 
 namespace WebAddressbookTests
 {
@@ -28,7 +31,8 @@ namespace WebAddressbookTests
             return group;
         }
 
-        public static IEnumerable<GroupData> GroupDataFromFile()
+        //чтение из файл формата csv
+        public static IEnumerable<GroupData> GroupDataFromCsvFile()
         {
             //создаем список
             List<GroupData> group = new List<GroupData>();
@@ -56,7 +60,22 @@ namespace WebAddressbookTests
             return group;
         }
 
-        [Test, TestCaseSource("GroupDataFromFile")]
+        //чтение из файл формата xml
+        public static IEnumerable<GroupData> GroupDataFromXmlFile()
+        {
+            return (List<GroupData>) //приведение типа, мы должны явно указать, что знаем какого типа объект
+                new XmlSerializer(typeof(List<GroupData>)) //читает данные типа List<GroupData>
+                    .Deserialize(new StreamReader(@"group.xml")); //из указанного файла
+        }
+
+        //чтение из файл формата json
+        public static IEnumerable<GroupData> GroupDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<GroupData>>(
+                File.ReadAllText(@"group.json"));
+        }
+
+        [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {
             /*GroupData group = new GroupData("dhth");
@@ -83,29 +102,6 @@ namespace WebAddressbookTests
             Assert.AreEqual(oldGroups, newGroups);
            
         }
-
-        /*[Test]
-        //создание пустой группы
-        public void EmptyGroupCreationTest()
-        {
-            GroupData group = new GroupData("");
-            group.Header = "";
-            group.Footer = "";
-
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-
-            app.Groups.Create(group);
-
-            //хеширование
-            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
-
-            List<GroupData> newGroups = app.Groups.GetGroupList();
-            oldGroups.Add(group);
-            oldGroups.Sort();
-            newGroups.Sort();
-
-            Assert.AreEqual(oldGroups, newGroups);
-        }*/
 
         [Test]
         //тест с недопустимым именем
