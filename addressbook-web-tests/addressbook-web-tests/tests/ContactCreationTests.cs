@@ -28,8 +28,6 @@ namespace WebAddressbookTests
                     Home = GenerateRandomString(30),
                     Email = GenerateRandomString(30)
                 });
-
-                
             }
             return contact;
         }
@@ -37,18 +35,6 @@ namespace WebAddressbookTests
         [Test, TestCaseSource("RandomContactDataProvider")]
         public void ContactCreationTest(ContactData contact)
         {
-            // app.Contact.CreationNewContact();
-
-           /* ContactData contact = new ContactData("Hohok", "Pum")
-            {
-                Middlename = "",
-                Nickname = "",
-                Title = "",
-                Company = "",
-                Address = "",
-                Home = "",
-                Email = ""
-            };*/
 
             //проверяем количесиво уже созданных контактов
             List<ContactData> oldContacts = app.Contact.GetContacList();
