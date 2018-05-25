@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace WebAddressbookTests
 {
@@ -75,7 +76,32 @@ namespace WebAddressbookTests
                 File.ReadAllText(@"group.json"));
         }
 
-        [Test, TestCaseSource("GroupDataFromJsonFile")]
+        //чтение из файл формата excel
+        public static IEnumerable<GroupData> GroupDataFromExcelFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            Excel.Application app = new Excel.Application();
+            app.Visible = true;
+            Excel.Workbook wb = app.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"group.xlsx"));
+            Excel.Worksheet sheed = wb.Sheets[1];
+            Excel.Range range = sheed.UsedRange; //UsedRange - это ячейка
+            for (int i= 1; i <= range.Rows.Count; i++ )
+            {
+                groups.Add(new GroupData()
+                {
+                    Name = range.Cells[i, 1].Value,
+                    Header = range.Cells[i, 2].Value,
+                    Footer = range.Cells[i, 3].Value
+                });
+            }
+
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+            return groups;
+        }
+
+        [Test, TestCaseSource("GroupDataFromExcelFile")]
         public void GroupCreationTest(GroupData group)
         {
             /*GroupData group = new GroupData("dhth");

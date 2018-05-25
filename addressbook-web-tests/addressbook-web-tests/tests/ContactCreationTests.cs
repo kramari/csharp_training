@@ -1,9 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using NUnit.Framework;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
+using NUnit.Framework;
+using Newtonsoft.Json;
 
 namespace WebAddressbookTests
 {
@@ -32,7 +36,22 @@ namespace WebAddressbookTests
             return contact;
         }
 
-        [Test, TestCaseSource("RandomContactDataProvider")]
+        //чтение из файл формата xml
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            return (List<ContactData>) //приведение типа, мы должны явно указать, что знаем какого типа объект
+                new XmlSerializer(typeof(List<ContactData>)) //читает данные типа List<GroupData>
+                    .Deserialize(new StreamReader(@"contact.xml")); //из указанного файла
+        }
+
+        //чтение из файл формата json
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactData>>(
+                File.ReadAllText(@"contact.json"));
+        }
+
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactCreationTest(ContactData contact)
         {
 
