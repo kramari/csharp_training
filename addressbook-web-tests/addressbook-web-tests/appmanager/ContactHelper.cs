@@ -41,7 +41,7 @@ namespace WebAddressbookTests
             //возвращаем
             return contactCache;
         }
-
+        
         //для хеширования
         public int GetContactCount()
         {
@@ -70,11 +70,33 @@ namespace WebAddressbookTests
             return this;
         }
 
+        //методы для изменения контакта (случай с бд)
+        public ContactHelper Modify(ContactData oldData, ContactData newData)
+        {
+            manager.Navigator.OpenHomePage();
+            SubmitContactEdit(oldData.Id);
+            FillContactForm(newData);
+            SudbmitContactUpdate();
+            manager.Navigator.OpenHomePage();
+            return this;
+        }
+
         //методы для удаления контакта
         public ContactHelper Remove(int v)
         {
             manager.Navigator.OpenHomePage();
             SelectContact(v);
+            RemoverContact();
+            DeleteOk();
+            manager.Navigator.OpenHomePage();
+            return this;
+        }
+
+        //методы для удаления контакта (случай с бд)
+        public ContactHelper Remove(ContactData contact)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContact(contact.Id);
             RemoverContact();
             DeleteOk();
             manager.Navigator.OpenHomePage();
@@ -143,10 +165,23 @@ namespace WebAddressbookTests
             return this;
         }
 
+        //выбор контакта по id
+        public ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.Id(id)).Click();
+            return this;
+        }
+
         //открытие радактирования контакта
         public ContactHelper SubmitContactEdit(int index)
         {
             driver.FindElement(By.XPath("(//img[@alt='Edit'])["+ index +"]")).Click();
+            return this;
+        }
+
+        public ContactHelper SubmitContactEdit(string id)
+        {
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + id + "]")).Click();
             return this;
         }
 

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
 using NUnit.Framework;
 using Newtonsoft.Json;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -13,7 +14,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGetDataProvider()
         {
@@ -101,7 +102,7 @@ namespace WebAddressbookTests
             return groups;
         }
 
-        [Test, TestCaseSource("GroupDataFromExcelFile")]
+        [Test, TestCaseSource("GroupDataFromXmlFile")]
         public void GroupCreationTest(GroupData group)
         {
             /*GroupData group = new GroupData("dhth");
@@ -109,7 +110,7 @@ namespace WebAddressbookTests
             group.Footer = "cgnfg";*/
 
             //проверяем количесиво уже созданных групп
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             app.Groups.Create(group);
 
@@ -118,7 +119,7 @@ namespace WebAddressbookTests
 
             //контейнер/коллекция
             //получаем количество групп после создания новой
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             //упорядочиваем перед сравнением 
             oldGroups.Sort();
@@ -150,6 +151,32 @@ namespace WebAddressbookTests
             newGroups.Sort();
 
             Assert.AreEqual(oldGroups, newGroups);
+        }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            /* //сравниваем скорость выполнения
+             DateTime start = DateTime.Now; //временная метка начала
+             //читаем список групп через веб-интерфейс
+             List<GroupData> fromUi = app.Groups.GetGroupList();
+             DateTime end = DateTime.Now; //временная метка конца
+             System.Console.Out.WriteLine(end.Subtract(start)); //от метки конца отнимаем метку начала
+
+             start = DateTime.Now;
+             List<GroupData> fromDb = GroupData.GetAll(); //вызываем мето для чтения бд
+
+             /*     //теперь читаем из бд
+              AddressBookDB db = new AddressBookDB(); //выполняем соединение
+              List<GroupData> fromDb = (from g in db.Groups select g).ToList(); //теперь выполняем запрос
+              db.Close(); // закрываем соединение с бд*/ //внесли в using и селали из него метод
+                                                         /* end = DateTime.Now;
+                                                          System.Console.Out.WriteLine(end.Subtract(start));*/
+
+            foreach (ContactData contact in GroupData.GetAll()[0].GetContacts())
+            {
+                System.Console.Out.WriteLine(contact);
+            }
         }
     }
 }

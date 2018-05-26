@@ -26,7 +26,7 @@ namespace WebAddressbookTests
             SubmitGroupCreation();
             ReturnToGroupsPage();
             return this;
-        }
+        }        
 
         private List<GroupData> groupCache = null;
         
@@ -88,11 +88,34 @@ namespace WebAddressbookTests
             
         }
 
+        // для изменения, в случае использования бд
+        public GroupHelper Modify(GroupData oldGroups, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(oldGroups.Id);
+            InitToGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
+
         //методы для удаления
         public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
             SelectGroup(p);
+            RemoverGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        //метод удаления по id
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            SelectGroup(group.Id);
             RemoverGroup();
             ReturnToGroupsPage();
             return this;
@@ -153,6 +176,13 @@ namespace WebAddressbookTests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
+            return this;
+        }
+
+        //показать группы (для варианта с бд)
+        public GroupHelper SelectGroup(String id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='"+id+"'])")).Click();
             return this;
         }
 

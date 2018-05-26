@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhone;
@@ -67,24 +69,34 @@ namespace WebAddressbookTests
             return Lastname.CompareTo(other.Lastname);
         }
 
+        [Column(Name = "firstname"), NotNull]
         public string Firstname { get; set; }
 
+        [Column(Name = "lastname"), NotNull]
         public string Lastname { get; set; }
-    
+
+        [Column(Name = "middlename"), NotNull]
         public string Middlename { get; set; }
-        
+
+        [Column(Name = "nickname"), NotNull]
         public string Nickname { get; set; }
-       
+
+        [Column(Name = "title"), NotNull]
         public string Title { get; set; }
-        
+
+        [Column(Name = "company"), NotNull]
         public string Company { get; set; }
-       
+
+        [Column(Name = "address"), NotNull]
         public string Address { get; set; }
-        
+
+        [Column(Name = "home"), NotNull]
         public string Home { get; set; }
 
+        [Column(Name = "mobile"), NotNull]
         public string Mobile { get; set; }
 
+        [Column(Name = "work"), NotNull]
         public string Work { get; set; }
 
         public string AllPhone
@@ -113,10 +125,13 @@ namespace WebAddressbookTests
             return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "")+ "\r\n";
         }
 
+        [Column(Name = "email"), NotNull]
         public string Email { get; set; }
 
+        [Column(Name = "email2"), NotNull]
         public string Email2 { get; set; }
 
+        [Column(Name = "email3"), NotNull]
         public string Email3 { get; set; }
 
         public string AllEmail
@@ -148,7 +163,16 @@ namespace WebAddressbookTests
             return email.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
 
+        [Column(Name = "id"), PrimaryKey]
         public string Id { get; set; }
+
+        public static List<ContactData> GetAll() //метод чтения из бд
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts select c).ToList();
+            }
+        }
 
     }
 }

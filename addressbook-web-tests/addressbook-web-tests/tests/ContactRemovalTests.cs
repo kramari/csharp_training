@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests : AuthTestBase
+    public class ContactRemovalTests : ContactTestBase
     {
 
         [Test]
@@ -16,9 +16,10 @@ namespace WebAddressbookTests
         {
             app.Contact.ContacNotExists();
 
-            List<ContactData> oldContacts = app.Contact.GetContacList();
+            List<ContactData> oldContacts = ContactData.GetAll();
+            ContactData toBeRemove = oldContacts[0]; //сохраняем этот объект
 
-            app.Contact.Remove(0);
+            app.Contact.Remove(toBeRemove);
 
             //хеширование
             Assert.AreEqual(oldContacts.Count - 1, app.Contact.GetContactCount());
@@ -31,7 +32,12 @@ namespace WebAddressbookTests
             oldContacts.Sort();
             newContacts.Sort();
 
-            Assert.AreEqual(oldContacts, newContacts);           
+            Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
     }
 }

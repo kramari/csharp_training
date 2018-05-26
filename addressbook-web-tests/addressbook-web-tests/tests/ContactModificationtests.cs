@@ -28,15 +28,15 @@ namespace WebAddressbookTests
             
 
             //проверяем количесиво уже созданных контактов
-            List<ContactData> oldContacts = app.Contact.GetContacList();
+            List<ContactData> oldContacts = ContactData.GetAll();
             ContactData oldData = oldContacts[0];
 
-            app.Contact.Modify(1, newData);
+            app.Contact.Modify(oldData, newData);
 
             //получаем количество контактов после создания нового
-            List<ContactData> newContacts = app.Contact.GetContacList();
-            oldContacts[0].Lastname = newData.Lastname;
-            oldContacts[0].Firstname = newData.Firstname;
+            List<ContactData> newContacts = ContactData.GetAll();
+            oldData.Lastname = newData.Lastname;
+            oldData.Firstname = newData.Firstname;
             
             oldContacts.Sort();
             newContacts.Sort();
