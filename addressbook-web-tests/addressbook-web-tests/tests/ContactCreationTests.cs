@@ -51,7 +51,7 @@ namespace WebAddressbookTests
                 File.ReadAllText(@"contact.json"));
         }
 
-        [Test, TestCaseSource("ContactDataFromJsonFile")]
+        [Test, TestCaseSource("ContactDataFromXmlFile")]
         public void ContactCreationTest(ContactData contact)
         {
             //проверяем количесиво уже созданных контактов
@@ -73,12 +73,5 @@ namespace WebAddressbookTests
             //проверяем, что после создания нового контакта, их стало на 1 больше
             Assert.AreEqual(oldContacts, newContacts);
         }
-
-       /* [Test]
-        public void TestDBConnectivity()
-        {
-
-        }*/
-
     }
 }

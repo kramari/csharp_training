@@ -26,7 +26,7 @@ namespace WebAddressbookTests
 
             app.Navigator.OpenHomePage();
 
-            List<ContactData> newContacts = app.Contact.GetContacList();
+            List<ContactData> newContacts = ContactData.GetAll();
             ContactData toBeRemoved = oldContacts[0];
             oldContacts.RemoveAt(0);
             oldContacts.Sort();
