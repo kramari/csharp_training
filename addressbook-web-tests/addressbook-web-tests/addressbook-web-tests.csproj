@@ -87,6 +87,7 @@
     <Compile Include="tests\ContactModificationtests.cs" />
     <Compile Include="tests\ContactRemovalTests.cs" />
     <Compile Include="tests\ContactTestBase.cs" />
+    <Compile Include="tests\DellingContactOfGroupTests.cs" />
     <Compile Include="tests\GroupModoficationTests.cs" />
     <Compile Include="model\AccountData.cs" />
     <Compile Include="appmanager\ApplicationManager.cs" />

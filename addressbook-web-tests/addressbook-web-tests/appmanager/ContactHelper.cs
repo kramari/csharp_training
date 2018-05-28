@@ -166,9 +166,9 @@ namespace WebAddressbookTests
         }
 
         //выбор контакта по id
-        public ContactHelper SelectContact(String contacyId)
+        public ContactHelper SelectContact(String contacId)
         {
-            driver.FindElement(By.Id(contacyId)).Click();
+            driver.FindElement(By.Id(contacId)).Click();
             return this;
         }
 
@@ -344,6 +344,30 @@ namespace WebAddressbookTests
         private void ClearGroupFilter()
         {
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
+        //метод для удаления контакта из группы
+        public void DelContactOfGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectGroupFilter(group.Name);
+            SelectContact(contact.Id);
+            RemoveFromGroup();
+            //manager.Navigator.OpenHomePage();
+            /*new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);*/
+        }
+
+        //вспомогтельные мтоды для DelContactOfGroup
+        private void SelectGroupFilter(string name)
+        {
+            //new SelectElement(driver.FindElement(By.XPath("//input[@value='"+ id + "'")));
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(".2");
+        }
+
+        private void RemoveFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
         }
     }
 }
