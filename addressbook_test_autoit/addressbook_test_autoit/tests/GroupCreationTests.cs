@@ -19,8 +19,9 @@ namespace addressbook_test_autoit
 
             app.Groups.Add(newGroup);
 
+          
             List<GroupData> newGroups = app.Groups.GetGrupList();
-            oldGroups.Add(newGroup);
+            
             oldGroups.Sort();
             newGroups.Sort();
 

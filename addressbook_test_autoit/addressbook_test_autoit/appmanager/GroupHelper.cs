@@ -9,6 +9,7 @@ namespace addressbook_test_autoit
     public class GroupHelper : HelperBase
     {
         protected static string GROUPWINTITLE = "Group editor";
+        protected static string GROUPDELWINTITLE = "Delete group";
 
         public GroupHelper(ApplicationManager manager) : base(manager) { }
 
@@ -31,7 +32,7 @@ namespace addressbook_test_autoit
             }
             ClouseGroupsDialogue();
             return list;
-        }
+        }        
 
         public void Add(GroupData newGroup)
         {
@@ -51,8 +52,32 @@ namespace addressbook_test_autoit
         //метод открытия окна
         private void OpenGroupsDialogue()
         {
+            //aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d512");
+            //aux.WinWait(GROUPWINTITLE);
             aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d512");
             aux.WinWait(GROUPWINTITLE);
+        }
+
+        public void Del(int index)
+        {
+            OpenGroupsDialogue();
+            aux.ControlTreeView(GROUPWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d51", "Select", "#0|#" + index, "");
+            OpenGroupsDeleteDialog();
+            aux.ControlTreeView(GROUPDELWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d51", "Select", "#0|#" + index, "");
+            FormDeleteGroup();
+            ClouseGroupsDialogue();
+        }
+
+        private void FormDeleteGroup()
+        {
+            aux.ControlClick(GROUPDELWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d53");
+            aux.WinWait(GROUPWINTITLE);
+        }
+
+        private void OpenGroupsDeleteDialog()
+        {
+            aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d51");
+            aux.WinWait(GROUPDELWINTITLE);
         }
     }
 }
